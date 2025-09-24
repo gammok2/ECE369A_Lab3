@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class MatrixReader {
     public static void main(String[] args) {
-        int framesize = 0;
-        int windowsize = 0;
-        int empty1 = 0;
-        int empty2 = 0;
+        int frameRow = 0;
+        int frameCol = 0;
+        int windowRow = 0;
+        int windowCol = 0;
 
 
         File file = new File("test.txt");
@@ -22,22 +22,22 @@ public class MatrixReader {
         int maxWidth = 0;
 
         for(int i = 0; i <= 3; i++){
-            if(i == 0) framesize = scanner.nextInt();
-            if(i == 1) empty1 = scanner.nextInt();
-            if(i == 2) windowsize = scanner.nextInt();
-            if(i == 3) empty2 = scanner.nextInt();
+            if(i == 0) frameRow = scanner.nextInt();
+            if(i == 1) frameCol = scanner.nextInt();
+            if(i == 2) windowRow = scanner.nextInt();
+            if(i == 3) windowCol = scanner.nextInt();
         }
 
         //System.out.println("Frame Size: " + framesize + " Window Size: " + windowsize);
         //System.out.println("Empty 1: " + empty1 + " Empty 2: " + empty2);
 
-        int[][] frame = new int[framesize][framesize];
-        int[][] window = new int[windowsize][windowsize];
+        int[][] frame = new int[frameRow][frameCol];
+        int[][] window = new int[windowRow][windowCol];
 
 
         // Read values into frame and find max width
-        for (int i = 0; i < framesize; i++) {
-            for (int j = 0; j < framesize; j++) {
+        for (int i = 0; i < frameRow; i++) {
+            for (int j = 0; j < frameCol; j++) {
                 if (!scanner.hasNextInt()) {
                     System.out.println("Not enough values in test.txt");
                     scanner.close();
@@ -50,8 +50,8 @@ public class MatrixReader {
         }
 
         // Print frame with aligned columns
-        for (int i = 0; i < framesize; i++) {
-            for (int j = 0; j < framesize; j++) {
+        for (int i = 0; i < frameRow; i++) {
+            for (int j = 0; j < frameCol; j++) {
                 System.out.printf("%" + (maxWidth + 1) + "d", frame[i][j]);
             }
             System.out.println();
@@ -60,8 +60,8 @@ public class MatrixReader {
         System.out.println("\n\n");
 
         // Fill window with values from test.txt (continue reading)
-        for (int i = 0; i < windowsize; i++) {
-            for (int j = 0; j < windowsize; j++) {
+        for (int i = 0; i < windowRow; i++) {
+            for (int j = 0; j < windowCol; j++) {
                 if (!scanner.hasNextInt()) {
                     System.out.println("Not enough values in test.txt for window");
                     scanner.close();
@@ -76,7 +76,8 @@ public class MatrixReader {
         scanner.close();
 
 
-        Search problem = new Search(window, frame);
+        SearchV2 problem = new SearchV2(window, frame);
+        problem.diagonalSearch(windowCol);
         
     }
 }
