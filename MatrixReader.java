@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class MatrixReader {
     public static void main(String[] args) {
-        int framesize = 16;
-        int windowsize = 4;
+        int framesize = 0;
+        int windowsize = 0;
+        int empty1 = 0;
+        int empty2 = 0;
 
-        int[][] frame = new int[framesize][framesize];
-        int[][] window = new int[windowsize][windowsize];
 
         File file = new File("test.txt");
         Scanner scanner;
@@ -20,6 +20,20 @@ public class MatrixReader {
         }
 
         int maxWidth = 0;
+
+        for(int i = 0; i <= 3; i++){
+            if(i == 0) framesize = scanner.nextInt();
+            if(i == 1) empty1 = scanner.nextInt();
+            if(i == 2) windowsize = scanner.nextInt();
+            if(i == 3) empty2 = scanner.nextInt();
+        }
+
+        //System.out.println("Frame Size: " + framesize + " Window Size: " + windowsize);
+        //System.out.println("Empty 1: " + empty1 + " Empty 2: " + empty2);
+
+        int[][] frame = new int[framesize][framesize];
+        int[][] window = new int[windowsize][windowsize];
+
 
         // Read values into frame and find max width
         for (int i = 0; i < framesize; i++) {
@@ -60,5 +74,9 @@ public class MatrixReader {
         }
 
         scanner.close();
+
+
+        Search problem = new Search(window, frame);
+        
     }
 }
