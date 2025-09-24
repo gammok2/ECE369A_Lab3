@@ -29,25 +29,77 @@ public class SearchV2{
         return sad;
     }
 
-    // Generate diagonal offsets
+    //Check Sad
+    public boolean checkSAD(int sad) {
+        return (sad == 0);
+    }
 
     // Diagonal search
-    public int[] diagonalSearch(int frameRow,  int frameCol, int windowRow, int windowCol) {
+    public int diagonalSearch(int frameRow,  int frameCol, int windowRow, int windowCol) {
         int row = 0;
         int col = 0;
+        int colMax = frameCol - windowCol;
+        int rowMax = frameRow - windowRow;
+        int sad = -1;
 
-        col += 1;
+        sad = computeSAD(col, row);
+        if(checkSAD(sad)) return 0; //need to return coords not 0.
 
-        row += 1; col -= 1;
+        while(  col != colMax && row != 0 ){ //First Half
+            col += 1; //Right
+            sad = computeSAD(col, row);
+            
+            while(col != 0){ //Diagonal down left
+                col -= 1;
+                row += 1;
+                sad = computeSAD(col, row);
+            }
 
-        row += 1;
+            row +=1;    //Down
+            sad = computeSAD(col, row);
 
-        
+            while(row != 0){    //Diagonal up right
+                row -= 1;
+                col += 1;
+                sad = computeSAD(col, row);
+            } 
 
+            col += 1; //Right
+            sad = computeSAD(col, row);
+        }
 
+        // Middle
+        while(col != 0){
+            col -= 1;
+            row += 1;
+            sad = computeSAD(col, row);
+        }
 
+        // Second Half
+        while( row != rowMax && col != colMax ){
+            col += 1; //Right
+            sad = computeSAD(col, row);
 
+            while(col != colMax){  //Diagonal Up Right
+                col += 1;
+                row -= 1;
+                sad = computeSAD(col, row);
+            }
 
-        return 0;
+            row += 1; //Down
+            sad = computeSAD(col, row);
+
+            while(row != rowMax){  //Diagonal Down Left
+                row += 1;
+                col -= 1;
+                sad = computeSAD(col, row);
+            }
+
+            col += 1; //Right
+            sad = computeSAD(col, row);
+            
+        }
+
+        return -1;
     }
 }
